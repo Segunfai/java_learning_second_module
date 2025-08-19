@@ -45,17 +45,28 @@ public class Person1 {
         if (pokupka == null)  {
             throw new IllegalArgumentException("Продукт не может быть несуществующим или null");
         }
+        //Вводим новую переменную для использования скидочных продуктов
+        int finalPrice = pokupka.getCost();
+
+
+        //Добавляем проверку на принадлежность продукта классу обычных или скидочных продуктов
+        if (pokupka instanceof DiscountProduct) {
+            DiscountProduct discProduct = (DiscountProduct) pokupka;
+            finalPrice = (int) discProduct.getDiscCost();
+        }
+
         //Если средств хватает, то добавляем продукт в список
-        if (money >= pokupka.getCost()) {
+        if (money >= finalPrice) {
             produkty.add(pokupka);
             //Уменьшаем количество денег на стоимость продуктв
-            money -= pokupka.getCost();
+            money -= finalPrice;
             //Выводим сообщение о покупке
             System.out.println(name + " купил " + pokupka.getNaimenovanie());
         } else {
             //Либо сообщение, что человек не может купить продукт
             System.out.println(name + " не может позволить себе " + pokupka.getNaimenovanie());
         }
+
     }
 
     //Добавлен метод для возвращения человека и его средств

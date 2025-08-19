@@ -107,6 +107,8 @@ public class App1 {
                     int dniSkidki = Integer.parseInt(razdelenie[3].trim());
                     spisokpokupok.add(new DiscountProduct(nazvanie, cena, skidka, dniSkidki));
                 } catch (NumberFormatException e) {
+                    System.out.println("Ошибка в числах: " + produkt);
+                } catch (IllegalArgumentException e) {
                     System.out.println("Ошибка: " + e.getMessage());
                 }
             }
@@ -183,5 +185,6 @@ public class App1 {
         }
 
         System.out.println("\nСпасибо, что воспользовались нашим симулятором магазина!\nЖдем Вас снова!");
+        System.out.println("Еще более расширенные возможности! Теперь у нас будут скидки!");
     }
 }
