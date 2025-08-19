@@ -82,6 +82,8 @@ public class App1 {
             }
         }
 
+        System.out.println("");
+
         System.out.println("Введите покупки в формате 'Имя - Наименование' через разделитель или построчно.\nДля завершения введите 'END'.");
         while (true) {
             String vvod = magaz.nextLine().trim();  // trim сразу при чтении

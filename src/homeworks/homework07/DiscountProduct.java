@@ -24,14 +24,36 @@ public class DiscountProduct extends Products1 {
             throw new IllegalArgumentException("Наименование не может состоять только из цифр!");
         }
 
+        if (cost <= 0) {
+            throw new IllegalArgumentException("Цена не может быть меньше или равной нулю!");
+        }
 
     }
-
+    //Добавляем дату истечения скидки
     public void setDiscountExDate (LocalDate exDate) {
         this.discountExDate = exDate;
     }
 
     public LocalDate getDiscountExDate() {
         return discountExDate;
+    }
+
+    //Добавляем метод для назначения количества дней скидки
+    public void setDiscountDays (double discount, int discDays) {
+        this.discount = discount;
+        this.discountExDate = LocalDate.now().plusDays(discDays);
+    }
+
+    //Проверка на действие скидки
+    public boolean isDiscValid () {
+        return discount > 0 && LocalDate.now().isBefore(discountExDate);
+    }
+
+    //Добавление метода для проверки цены скидочного продукта
+    public double getDiscCost() {
+        if (isDiscValid()) {
+            return cost * (1 - discount / 100);
+        }
+        return cost;
     }
 }

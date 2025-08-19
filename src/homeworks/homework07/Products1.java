@@ -5,7 +5,8 @@ import java.util.Objects;
 public class Products1 {
     //Объявляем характеристики
     private String naimenovanie;
-    private int cost;
+    //Сменил на публичный, чтобы использовать в классе скидочного продукта
+    public int cost;
     //Объявляем конструктор
     public Products1 (String naimenovanie, int cost) {
         //Проверяем названия на пустоту и деньги на отрицательное значение
@@ -17,7 +18,7 @@ public class Products1 {
         if (naimenovanie != null && naimenovanie.matches("\\d+")) {
             throw new IllegalArgumentException("Наименование не может состоять только из цифр!");
         }
-        if (cost < 0) {
+        if (cost <= 0) {
             throw new IllegalArgumentException("Цена продукта не может быть отрицательной!");
         }
         this.naimenovanie = naimenovanie;
