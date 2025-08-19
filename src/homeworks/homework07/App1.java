@@ -82,7 +82,34 @@ public class App1 {
             }
         }
 
-        System.out.println("");
+        System.out.println("Введите скидочные продукты в формате 'Наименование = стоимость = процент скидки; Наименование = стоимость = процент скидки;'." +
+                " \nДля завершения введите 'END'.");
+        while (true) {
+            String vvod = magaz.nextLine();
+            if (vvod.equals("END")) break;
+
+            String[] produkty = vvod.split(";");
+            for (String produkt : produkty) {
+                try {
+                    produkt = produkt.trim();
+                    if (produkt.isEmpty()) continue;
+
+                    String[] razdelenie = produkt.split(" = ");
+                    if (razdelenie.length != 3) {
+                        System.out.println("Ошибка формата! Используйте 'Наименование = стоимость = процент скидки'");
+                        continue;
+                    }
+
+                    String nazvanie = razdelenie[0].trim();
+                    int cena = Integer.parseInt(razdelenie[1].trim());
+                    double skidka = Double.parseDouble(razdelenie[3].trim());
+                    spisokpokupok.add(new DiscountProduct(nazvanie, cena, skidka));
+                } catch (NumberFormatException e) {
+                    System.out.println("Ошибка! Цена должна быть числом: " + produkt);
+                }
+            }
+        }
+
 
         System.out.println("Введите покупки в формате 'Имя - Наименование' через разделитель или построчно.\nДля завершения введите 'END'.");
         while (true) {

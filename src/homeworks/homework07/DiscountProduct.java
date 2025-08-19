@@ -9,24 +9,10 @@ public class DiscountProduct extends Products1 {
     private LocalDate discountExDate;
 
     //Задаем те же характеристики, что и у простых продуктов
-    public DiscountProduct(String naimenovanie, int cost) {
+    public DiscountProduct(String naimenovanie, int cost, double discount) {
         super(naimenovanie, cost);
-        //Задаем проверку на название скидочного продукта
-        if (naimenovanie == null || naimenovanie.isEmpty()) {
-            throw new IllegalArgumentException("Наименование не может быть пустым!");
-        }
 
-        if (naimenovanie.length() < 3) {
-            throw new IllegalArgumentException("Наименование не может быть короче 3х символов!");
-        }
-        //Добавляем проверку на содержание только цифр в названии скидочного продукта
-        if (naimenovanie.matches("\\d+")) {
-            throw new IllegalArgumentException("Наименование не может состоять только из цифр!");
-        }
-
-        if (cost <= 0) {
-            throw new IllegalArgumentException("Цена не может быть меньше или равной нулю!");
-        }
+        //Убрал проверки, так как они уже выполняются в рамках класса Products1
 
     }
     //Добавляем дату истечения скидки
