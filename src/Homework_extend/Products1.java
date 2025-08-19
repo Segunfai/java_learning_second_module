@@ -1,4 +1,4 @@
-package module2.lesson1.Homework_extend;
+package Homework_extend;
 
 import java.util.Objects;
 

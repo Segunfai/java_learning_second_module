@@ -1,6 +1,4 @@
-package module2.lesson1.Homework_extend;
-
-import com.sun.nio.sctp.IllegalReceiveException;
+package Homework_extend;
 
 import java.time.LocalDate;
 
