@@ -1,4 +1,4 @@
-package Homework_extend;
+package homeworks.homework07;
 
 import java.util.Scanner;
 import java.util.ArrayList;
