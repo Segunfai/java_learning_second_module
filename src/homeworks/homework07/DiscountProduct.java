@@ -20,7 +20,7 @@ public class DiscountProduct extends Products1 {
             throw new IllegalArgumentException("Наименование не может быть короче 3х символов!");
         }
         //Добавляем проверку на содержание только цифр в названии скидочного продукта
-        if (naimenovanie != null && naimenovanie.matches("\\d+")) {
+        if (naimenovanie.matches("\\d+")) {
             throw new IllegalArgumentException("Наименование не может состоять только из цифр!");
         }
 
