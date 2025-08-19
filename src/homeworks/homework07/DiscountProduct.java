@@ -9,12 +9,34 @@ public class DiscountProduct extends Products1 {
     private LocalDate discountExDate;
 
     //Задаем те же характеристики, что и у простых продуктов
-    public DiscountProduct(String naimenovanie, int cost, double discount) {
+    public DiscountProduct(String naimenovanie, int cost, double discount, int discDays) {
         super(naimenovanie, cost);
 
-        //Убрал проверки, так как они уже выполняются в рамках класса Products1
+        /*
+        Убрал проверки, так как они уже выполняются в рамках класса Products1
+        Добавил проверки на скидки
+         */
+        if (discount <0 || discount > 100) {
+            throw new IllegalArgumentException("Скидка должна быть в размере от нуля до ста процентов");
+        }
+
+        if (discDays <= 0) {
+            throw new IllegalArgumentException("Количество скидочных дней должно быть больше 0");
+        }
+
+        this.discount =discount;
+        this.discountExDate = LocalDate.now().plusDays(discDays);
 
     }
+
+    //Добавление метода для проверки цены скидочного продукта
+    public double getDiscCost() {
+        if (isDiscValid()) {
+            return cost * (1 - discount / 100);
+        }
+        return cost;
+    }
+
     //Добавляем дату истечения скидки
     public void setDiscountExDate (LocalDate exDate) {
         this.discountExDate = exDate;
@@ -32,14 +54,14 @@ public class DiscountProduct extends Products1 {
 
     //Проверка на действие скидки
     public boolean isDiscValid () {
-        return discount > 0 && LocalDate.now().isBefore(discountExDate);
+        return LocalDate.now().isBefore(discountExDate);
     }
 
-    //Добавление метода для проверки цены скидочного продукта
-    public double getDiscCost() {
-        if (isDiscValid()) {
-            return cost * (1 - discount / 100);
-        }
-        return cost;
+    @Override
+    public String toString() {
+        return "Продукт " + products1 +
+                "со скидкой " + discount +
+                "% стоит " + cost +
+                ", скидка действует до " + discountExDate;
     }
 }

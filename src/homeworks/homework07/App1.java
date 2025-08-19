@@ -82,7 +82,8 @@ public class App1 {
             }
         }
 
-        System.out.println("Введите скидочные продукты в формате 'Наименование = стоимость = процент скидки; Наименование = стоимость = процент скидки;'." +
+        //Модифицируем формат приложения для добавления скидочных продуктов
+        System.out.println("Введите скидочные продукты в формате: 'Наименование = стоимость = процент_скидки = дни_действия'" +
                 " \nДля завершения введите 'END'.");
         while (true) {
             String vvod = magaz.nextLine();
@@ -95,17 +96,18 @@ public class App1 {
                     if (produkt.isEmpty()) continue;
 
                     String[] razdelenie = produkt.split(" = ");
-                    if (razdelenie.length != 3) {
-                        System.out.println("Ошибка формата! Используйте 'Наименование = стоимость = процент скидки'");
+                    if (razdelenie.length != 4) {
+                        System.out.println("Ошибка формата! Используйте 'Наименование = стоимость = процент_скидки = дни_действия'");
                         continue;
                     }
 
                     String nazvanie = razdelenie[0].trim();
                     int cena = Integer.parseInt(razdelenie[1].trim());
-                    double skidka = Double.parseDouble(razdelenie[3].trim());
-                    spisokpokupok.add(new DiscountProduct(nazvanie, cena, skidka));
+                    double skidka = Double.parseDouble(razdelenie[2].trim());
+                    int dniSkidki = Integer.parseInt(razdelenie[3].trim());
+                    spisokpokupok.add(new DiscountProduct(nazvanie, cena, skidka, dniSkidki));
                 } catch (NumberFormatException e) {
-                    System.out.println("Ошибка! Цена должна быть числом: " + produkt);
+                    System.out.println("Ошибка: " + e.getMessage());
                 }
             }
         }
