@@ -32,9 +32,9 @@ public class DiscountProduct extends Products1 {
     //Добавление метода для проверки цены скидочного продукта
     public double getDiscCost() {
         if (isDiscValid()) {
-            return cost * (1 - discount / 100);
+            return getCost() * (1 - discount / 100);
         }
-        return cost;
+        return getCost();
     }
 
     //Добавляем дату истечения скидки
@@ -61,7 +61,7 @@ public class DiscountProduct extends Products1 {
     public String toString() {
         return "Продукт " + products1 +
                 "со скидкой " + discount +
-                "% стоит " + cost +
+                "% стоит " + getCost() +
                 ", скидка действует до " + discountExDate;
     }
 }
