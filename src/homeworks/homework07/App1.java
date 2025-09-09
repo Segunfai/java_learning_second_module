@@ -74,10 +74,15 @@ public class App1 {
 
                     String nazvanie = razdelenie[0].trim();
                     int cena = Integer.parseInt(razdelenie[1].trim());
-                    spisokpokupok.add(new Products1(nazvanie, cena));
+                    Products1 newProduct = new Products1(nazvanie, cena);
+                    spisokpokupok.add(newProduct);
 
                 } catch (NumberFormatException e) {
                     System.out.println("Ошибка! Цена должна быть числом: " + produkt);
+                } catch (IllegalArgumentException e) {
+                    System.out.println("Ошибка создания продукта: " + e.getMessage() + " (ввод: " + produkt + ")");
+                } catch (Exception e) {
+                    System.out.println("Неожиданная ошибка: " + e.getMessage());
                 }
             }
         }
@@ -105,11 +110,14 @@ public class App1 {
                     int cena = Integer.parseInt(razdelenie[1].trim());
                     double skidka = Double.parseDouble(razdelenie[2].trim());
                     int dniSkidki = Integer.parseInt(razdelenie[3].trim());
-                    spisokpokupok.add(new DiscountProduct(nazvanie, cena, skidka, dniSkidki));
+                    DiscountProduct discProduct = new DiscountProduct(nazvanie, cena, skidka, dniSkidki);
+                    spisokpokupok.add(discProduct);
                 } catch (NumberFormatException e) {
                     System.out.println("Ошибка в числах: " + produkt);
                 } catch (IllegalArgumentException e) {
-                    System.out.println("Ошибка: " + e.getMessage());
+                    System.out.println("Ошибка создания скидочного продукта: " + e.getMessage() + " (ввод: " + produkt + ")");
+                } catch (Exception e) {
+                    System.out.println("Неожиданная ошибка: " + e.getMessage());
                 }
             }
         }
