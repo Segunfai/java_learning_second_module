@@ -7,6 +7,15 @@ public class Student extends Person {
         this.school = school;
 
     }
+    @Override
+    protected void sleep() {
+        super.sleep();
+        System.out.println("Student is sleeping!");
+    }
+
+    public void study() {
+        System.out.println("I am studying!");
+    }
 
     @Override
     public String toString() {

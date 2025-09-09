@@ -16,4 +16,8 @@ public class School {
                 ", address='" + address + '\'' +
                 '}';
     }
+
+    public void info() {
+        System.out.println(toString());
+    }
 }
