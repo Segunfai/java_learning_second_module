@@ -6,7 +6,7 @@ public class Products1 {
     //Объявляем характеристики
     private String naimenovanie;
     //Сменил на публичный, чтобы использовать в классе скидочного продукта
-    public int cost;
+    private int cost;
     //Объявляем конструктор
     public Products1 (String naimenovanie, int cost) {
         //Проверяем названия на пустоту и деньги на отрицательное значение
