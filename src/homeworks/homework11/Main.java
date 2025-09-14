@@ -1,5 +1,8 @@
 package homeworks.homework11;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -15,7 +18,7 @@ public class Main {
         initializeVehicles();
     }
 
-    //Добавляем входные данные в список
+    //1 способ, Добавляем входные данные в список
     private void initializeVehicles () {
         vehicles.add(new Automobile("a123me", "Mercedes", "White", 0, 8300000));
         vehicles.add(new Automobile("b873of", "Volga", "Black", 0, 673000));
@@ -29,6 +32,10 @@ public class Main {
         vehicles.add(new Automobile("y876wd", "Toyota", "Black", 160000, 1000000));
     }
 
+
+
+
+
     //Пробный вывод списка
     public void printAllVehicles() {
         System.out.println("Автомобили в базе: ");
@@ -37,7 +44,28 @@ public class Main {
     }
 
     //Создаем метод для вывода списка
+    /*
+    //2 способ с добавлением данных из файла (добавил после просмотра консультации)
+    public void main(String[] args) throws IOException {
+
+        try {
+            Files.lines(Paths.get("D:\\desktop\\Homeworks\\Homework11\\input_data.txt"))
+                    .map(line -> line.split("\\|"))
+                    .forEach(parts -> {
+                        if(parts.length >= 5) {
+                            vehicles.add(new Automobile(
+                                    parts[0], parts[1], parts[2],
+                                    Integer.parseInt(parts[3]), (int) Long.parseLong(parts[4])
+                            ));
+                        }
+                    });
+        } catch (IOException e) {
+            System.out.println("Ошибка при чтении файла: " + e);
+        }
+     */
+
     public static void main(String[] args) {
+
         Main main = new Main();
 
         main.printAllVehicles();
