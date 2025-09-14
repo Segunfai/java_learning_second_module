@@ -5,7 +5,6 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 import java.util.stream.Collectors;
 
 public class Main {
@@ -63,13 +62,33 @@ public class Main {
             System.out.println("Ошибка при чтении файла: " + e);
         }
      */
+    /*
+    Реализация фильтра для задания 1 - Номера всех автомобилей, имеющих заданный в переменной цвет
+    colorToFind или нулевой пробег mileageToFind
+    */
+    public String getVehiclesByColorOrMileage(String colorToFind, Long mileageToFind) {
+        return vehicles.stream()
+                .filter(vehicle -> vehicle.getColor().equals(colorToFind) || vehicle.getMileage().equals(mileageToFind.intValue()))
+                .map(Automobile::getVehicleNumber)
+                .collect(Collectors.joining(" "));
+    }
 
     public static void main(String[] args) {
 
         Main main = new Main();
-
+        //Выводим все автомобили в базе
         main.printAllVehicles();
         System.out.println();
+
+
+        //Задаем поля для фильтра по заданию 1
+        String colorToFind = "Black";
+        Long mileageToFind = 0L;
+
+        String resultTask1 = main.getVehiclesByColorOrMileage(colorToFind, mileageToFind);
+        System.out.println("Номера автомобилей по цвету или пробегу: " + resultTask1);
+
+
     }
 
 }
