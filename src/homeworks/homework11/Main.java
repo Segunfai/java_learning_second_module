@@ -84,6 +84,17 @@ public class Main {
                 .count();
     }
 
+    /*
+    Реализация задания 3 - Вывести цвет автомобиля с минимальной стоимостью
+     */
+
+    public String getColorOfLowCostVehicle() {
+        return vehicles.stream()
+                .min((vehicle1, vehicle2) -> vehicle1.getCost().compareTo(vehicle2.getCost()))
+                .map(Automobile::getColor)
+                .orElse("Не найдено");
+    }
+
     public static void main(String[] args) {
 
         Main main = new Main();
@@ -107,6 +118,10 @@ public class Main {
         //Выводим результат второго задания
         long resultTask2 = main.getUniqueModelsInCostRange(minPrice, maxPrice);
         System.out.println("Уникальные автомобили: " + resultTask2);
+
+        //Выводим результат задания 3
+        String resultTask3 = main.getColorOfLowCostVehicle();
+        System.out.println("Цвет автомобиля с минимальной стоимостью: " + resultTask3);
 
     }
 
