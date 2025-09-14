@@ -73,6 +73,17 @@ public class Main {
                 .collect(Collectors.joining(" "));
     }
 
+    /*
+    Реализация фильтра для задания 2 - Количество уникальных моделей в ценовом диапазоне от n до m тыс.
+     */
+    public long getUniqueModelsInCostRange (long minPrice, long maxPrice) {
+        return vehicles.stream()
+                .filter(vehicle -> vehicle.getCost() >= minPrice && vehicle.getCost() <= maxPrice)
+                .map(Automobile::getModel)
+                .distinct()
+                .count();
+    }
+
     public static void main(String[] args) {
 
         Main main = new Main();
@@ -85,9 +96,17 @@ public class Main {
         String colorToFind = "Black";
         Long mileageToFind = 0L;
 
+        //Выводим результат задания 1
         String resultTask1 = main.getVehiclesByColorOrMileage(colorToFind, mileageToFind);
         System.out.println("Номера автомобилей по цвету или пробегу: " + resultTask1);
 
+        //Задаем фильтры для задания 2
+        Long minPrice = 700_000L;
+        Long maxPrice = 800_000L;
+
+        //Выводим результат второго задания
+        long resultTask2 = main.getUniqueModelsInCostRange(minPrice, maxPrice);
+        System.out.println("Уникальные автомобили: " + resultTask2);
 
     }
 
