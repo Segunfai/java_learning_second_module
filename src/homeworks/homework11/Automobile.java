@@ -5,20 +5,20 @@ import java.util.List;
 
 public class Automobile {
     //Задаем параметры класса
-    private String vehicleNumber;
-    private String model;
-    private String color;
-    private Integer mileage;
-    private Integer price;
+    private String vehicleNumber; //номер автомобиля
+    private String model; //Модель (марка)
+    private String color; //Цвет
+    private Integer mileage; //Пробег
+    private Integer cost; //Стоимость (цена)
 
 
     //Создаем конструктор
-    public Automobile (String vehicleNumber, String model, String color, Integer mileage, Integer price) {
+    public Automobile (String vehicleNumber, String model, String color, Integer mileage, Integer cost) {
         this.vehicleNumber = vehicleNumber;
         this.model = model;
         this.color = color;
         this.mileage = mileage;
-        this.price = price;
+        this.cost = cost;
     }
 
     //Генерируем геттеры
@@ -35,16 +35,16 @@ public class Automobile {
         return mileage;
     }
     public Integer getPrice() {
-        return price;
+        return cost;
     }
 
 
 
-    //Переопределяем данные в строку c форматированием
+    //Переопределяем данные в строку c форматированием, как в просмотре БД
     @Override
     public String toString() {
         return String.format("%-8s %-10s %-8s %-8d %d",
-                vehicleNumber, model, color, mileage, price);
+                vehicleNumber, model, color, mileage, cost);
     }
 
 
