@@ -34,7 +34,7 @@ public class Automobile {
     public Integer getMileage() {
         return mileage;
     }
-    public Integer getPrice() {
+    public Integer getCost() {
         return cost;
     }
 
