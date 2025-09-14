@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -90,10 +91,23 @@ public class Main {
 
     public String getColorOfLowCostVehicle() {
         return vehicles.stream()
-                .min((vehicle1, vehicle2) -> vehicle1.getCost().compareTo(vehicle2.getCost()))
+                .min(Comparator.comparing(Automobile::getCost))
                 .map(Automobile::getColor)
                 .orElse("Не найдено");
     }
+
+    /*
+    Реализация задания 4 - Средняя стоимость искомой модели modelToFind
+     */
+
+    public double getAveragePriceByModel(String modelToFind) {
+        return vehicles.stream()
+                .filter(vehicle -> vehicle.getModel().equals(modelToFind))
+                .mapToInt(Automobile::getCost)
+                .average()
+                .orElse(0);
+    }
+
 
     public static void main(String[] args) {
 
@@ -123,6 +137,16 @@ public class Main {
         String resultTask3 = main.getColorOfLowCostVehicle();
         System.out.println("Цвет автомобиля с минимальной стоимостью: " + resultTask3);
 
+        //Задаем параметры фильтрации для задания 4
+        String modelToFind1 = "Toyota";
+        String modelToFind2 = "Volvo";
+
+        //Выводим результаты по заданию 4
+        double resultTask4 = main.getAveragePriceByModel(modelToFind1);
+        System.out.printf("Средняя стоимость модели %s: %.2f%n", modelToFind1, resultTask4);
+
+        double resultTask4_1 = main.getAveragePriceByModel(modelToFind2);
+        System.out.printf("Средняя стоимость модели %s: %.2f%n", modelToFind2, resultTask4_1);
     }
 
 }
