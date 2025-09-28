@@ -28,21 +28,168 @@ public class Game {
             System.out.println("Память: used=" + used + " free=" + free + " total=" + total);
         });
         commands.put("look", (ctx, a) -> System.out.println(ctx.getCurrent().describe()));
+
+        //Добавлена реализация команды move
         commands.put("move", (ctx, a) -> {
-            throw new InvalidCommandException("TODO-1: реализуйте перемещение игрока");
+            if (a.isEmpty()) {
+                throw new InvalidCommandException("Укажите направление: north, south, east, west");
+            }
+
+            String direction = a.getFirst().toLowerCase();
+            Room current = ctx.getCurrent();
+            Room nextRoom = current.getNeighbors().get(direction);
+
+            if (nextRoom == null) {
+                throw new InvalidCommandException("Нет пути в направлении: " + direction);
+            }
+
+            ctx.setCurrent(nextRoom);
+            System.out.println("Вы перешли в: " + nextRoom.getName());
+            System.out.println(nextRoom.describe());
         });
+
+        //Реализация команды take
         commands.put("take", (ctx, a) -> {
-            throw new InvalidCommandException("TODO-2: реализуйте взятие предмета");
+            if (a.isEmpty()) {
+                throw new InvalidCommandException("Укажите название предмета");
+            }
+
+            String itemName = String.join(" ", a);
+            Room current = ctx.getCurrent();
+            Player player = ctx.getPlayer();
+
+            // Ищем предмет в комнате
+            Optional<Item> foundItem = current.getItems().stream()
+                    .filter(item -> item.getName().equalsIgnoreCase(itemName))
+                    .findFirst();
+
+            if (foundItem.isEmpty()) {
+                throw new InvalidCommandException("Предмет не найден: " + itemName);
+            }
+
+            Item item = foundItem.get();
+            current.getItems().remove(item);
+            player.getInventory().add(item);
+
+            System.out.println("Взято: " + item.getName());
         });
+
+        //Реализация инвентаря
         commands.put("inventory", (ctx, a) -> {
-            System.out.println("TODO-3: вывести инвентарь (Streams)");
+            Player player = ctx.getPlayer();
+            List<Item> inventory = player.getInventory();
+
+            if (inventory.isEmpty()) {
+                System.out.println("Инвентарь пуст");
+                return;
+            }
+
+            // Группировка по типу предмета с использованием Stream API
+            Map<String, List<Item>> groupedItems = inventory.stream()
+                    .collect(Collectors.groupingBy(item -> {
+                        if (item instanceof Potion) return "Potion";
+                        if (item instanceof Weapon) return "Weapon";
+                        if (item instanceof Key) return "Key";
+                        return "Other";
+                    }));
+
+            // Сортировка по названию типа с помощью стримов
+            groupedItems.entrySet().stream()
+                    .sorted(Map.Entry.comparingByKey())
+                    .forEach(entry -> {
+                        String type = entry.getKey();
+                        List<Item> items = entry.getValue();
+
+                        // Группировка по имени и подсчет количества
+                        Map<String, Long> itemCounts = items.stream()
+                                .collect(Collectors.groupingBy(
+                                        Item::getName,
+                                        Collectors.counting()
+                                ));
+
+                        // Вывод отсортированный по имени предмета
+                        itemCounts.entrySet().stream()
+                                .sorted(Map.Entry.comparingByKey())
+                                .forEach(itemEntry -> {
+                                    System.out.println("- " + type + " (" + itemEntry.getValue() + "): " + itemEntry.getKey());
+                                });
+                    });
         });
+
+        //Реализуем команду use
         commands.put("use", (ctx, a) -> {
-            throw new InvalidCommandException("TODO-4: реализуйте использование предмета");
+            if (a.isEmpty()) {
+                throw new InvalidCommandException("Укажите название предмета");
+            }
+
+            String itemName = String.join(" ", a);
+            Player player = ctx.getPlayer();
+
+            // Ищем предмет в инвентаре
+            Optional<Item> foundItem = player.getInventory().stream()
+                    .filter(item -> item.getName().equalsIgnoreCase(itemName))
+                    .findFirst();
+
+            if (foundItem.isEmpty()) {
+                throw new InvalidCommandException("Предмет не найден в инвентаре: " + itemName);
+            }
+
+            Item item = foundItem.get();
+            item.apply(ctx); // Полиморфизм - каждый предмет сам знает, что делать
         });
+
+        //Реализация битвы
         commands.put("fight", (ctx, a) -> {
-            throw new InvalidCommandException("TODO-5: реализуйте бой");
+            Room current = ctx.getCurrent();
+            Player player = ctx.getPlayer();
+            Monster monster = current.getMonster();
+
+            if (monster == null) {
+                throw new InvalidCommandException("В этой комнате нет монстра");
+            }
+
+            System.out.println("Начинается бой с " + monster.getName());
+
+            // Цикл боя
+            while (player.getHp() > 0 && monster.getHp() > 0) {
+                // Ход игрока
+                System.out.println("Вы бьёте " + monster.getName() + " на " + player.getAttack() + ".");
+                monster.setHp(monster.getHp() - player.getAttack());
+                System.out.println("HP монстра: " + Math.max(monster.getHp(), 0));
+
+                if (monster.getHp() <= 0) {
+                    System.out.println("Монстр побежден!");
+                    // Монстр выпадает лут
+                    if (Math.random() > 0.5) {
+                        Item loot = new Potion("Зелье из дропа", 3);
+                        current.getItems().add(loot);
+                        System.out.println("Монстр выронил: " + loot.getName());
+                    }
+                    current.setMonster(null);
+                    ctx.addScore(10); // Бонус за победу
+                    break;
+                }
+
+                // Ход монстра
+                int monsterDamage = monster.getLevel();
+                System.out.println("Монстр отвечает на " + monsterDamage + ".");
+                player.setHp(player.getHp() - monsterDamage);
+                System.out.println("Ваше HP: " + Math.max(player.getHp(), 0));
+
+                if (player.getHp() <= 0) {
+                    System.out.println("Вы погибли! Игра окончена.");
+                    System.exit(0);
+                }
+
+                // Пауза между раундами
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    Thread.currentThread().interrupt();
+                }
+            }
         });
+
         commands.put("save", (ctx, a) -> SaveLoad.save(ctx));
         commands.put("load", (ctx, a) -> SaveLoad.load(ctx));
         commands.put("scores", (ctx, a) -> SaveLoad.printScores());
