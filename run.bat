@@ -1,3 +1,3 @@
 @echo off
 set ROOT=%~dp0
-java -cp "%ROOT%out" com.example.dungeon.Main
+java -cp "%ROOT%out" attestation02_dungeon.Main
