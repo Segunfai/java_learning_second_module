@@ -1,6 +1,6 @@
-package com.example.dungeon.core;
+package attestation02_dungeon.core;
 
-import com.example.dungeon.model.GameState;
+import attestation02_dungeon.model.GameState;
 import java.util.List;
 
 @FunctionalInterface

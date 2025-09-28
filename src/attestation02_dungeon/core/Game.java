@@ -1,11 +1,12 @@
-package com.example.dungeon.core;
+package attestation02_dungeon.core;
 
-import com.example.dungeon.model.*;
+import attestation02_dungeon.model.*;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class Game {
     private final GameState state = new GameState();
@@ -26,6 +27,35 @@ public class Game {
             Runtime rt = Runtime.getRuntime();
             long free = rt.freeMemory(), total = rt.totalMemory(), used = total - free;
             System.out.println("Память: used=" + used + " free=" + free + " total=" + total);
+        });
+
+        //Демонстрация реализации garbageCollector
+        commands.put("alloc", (ctx, a) -> {
+            // Демонстрация работы GC - создаем много объектов
+            List<String> garbage = new ArrayList<>();
+            for (int i = 0; i < 100000; i++) {
+                garbage.add("String object " + i);
+            }
+            System.out.println("Создано 100000 объектов. GC должен их очистить.");
+        });
+
+        commands.put("demo-errors", (ctx, a) -> {
+            System.out.println("=== Демонстрация ошибок ===");
+
+            // Ошибка выполнения (Runtime Exception)
+            System.out.println("1. Ошибка выполнения (ArithmeticException):");
+            try {
+                int result = 10 / 0; // Деление на ноль
+            } catch (ArithmeticException e) {
+                System.out.println("   Поймано: " + e.getClass().getSimpleName() + " - " + e.getMessage());
+            }
+
+            // Ошибка компиляции (необходимо раскомментировать для проверок)
+            /*
+            System.out.println("2. Ошибка компиляции (пример):");
+            System.out.println("   // String x = 123; // Не компилируется: несовместимые типы");
+            System.out.println("   Эта ошибка обнаруживается на этапе компиляции");
+             */
         });
         commands.put("look", (ctx, a) -> System.out.println(ctx.getCurrent().describe()));
 

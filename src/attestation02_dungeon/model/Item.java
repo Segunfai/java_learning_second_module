@@ -1,4 +1,4 @@
-package com.example.dungeon.model;
+package attestation02_dungeon.model;
 
 public abstract class Item {
     private final String name;

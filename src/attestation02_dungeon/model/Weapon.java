@@ -1,4 +1,4 @@
-package com.example.dungeon.model;
+package attestation02_dungeon.model;
 
 public class Weapon extends Item {
     private final int bonus;
