@@ -1,6 +1,6 @@
-package com.example.dungeon;
+package attestation02_dungeon;
 
-import com.example.dungeon.core.Game;
+import attestation02_dungeon.core.Game;
 
 public class Main {
     public static void main(String[] args) {
