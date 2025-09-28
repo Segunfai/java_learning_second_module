@@ -1,4 +1,4 @@
-package com.example.dungeon.core;
+package attestation02_dungeon.core;
 
 public final class WorldInfo {
     private static final StringBuilder log = new StringBuilder();

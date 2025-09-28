@@ -1,4 +1,4 @@
-package com.example.dungeon.core;
+package attestation02_dungeon.core;
 
 public class InvalidCommandException extends RuntimeException {
     public InvalidCommandException(String m) {

@@ -1,6 +1,6 @@
-package com.example.dungeon.core;
+package attestation02_dungeon.core;
 
-import com.example.dungeon.model.*;
+import attestation02_dungeon.model.*;
 
 import java.io.*;
 import java.nio.file.*;

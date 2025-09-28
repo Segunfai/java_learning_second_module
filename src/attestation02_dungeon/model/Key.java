@@ -1,4 +1,4 @@
-package com.example.dungeon.model;
+package attestation02_dungeon.model;
 
 public class Key extends Item {
     public Key(String name) {
@@ -7,6 +7,6 @@ public class Key extends Item {
 
     @Override
     public void apply(GameState ctx) {
-        System.out.println("Ключ звенит. Возможно, где-то есть дверь...");
+        System.out.println("Ключ звенит. " + getName() + " Возможно, где-то есть дверь...");
     }
 }
